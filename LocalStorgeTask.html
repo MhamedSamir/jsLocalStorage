@@ -1,0 +1,163 @@
+<!DOCTYPE>
+<html>
+
+<head>
+    <style type="text/css">
+        input {
+            width: 150px;
+            margin-left: 80px;
+
+        }
+
+        #email {
+            margin-left: 70px
+        }
+
+        #num {
+            margin-left: 90px;
+        }
+
+        #fname,
+        #tel {
+            margin-left: 40px
+        }
+
+        #div1 {
+            margin-left: 150;
+            display: inline-block;
+            margin-top: 150px
+        }
+
+        #div2 {
+            margin-left: 150px;
+            display: inline-block;
+        }
+
+        div {
+            margin-left: 430px;
+            margin-top: 50px
+        }
+
+        #add,
+        #rest {
+            width: 50px;
+            margin-left: 0
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+        }
+        #display{margin-left: 450px}
+    </style>
+</head>
+
+<body>
+
+    <form action="#">
+        <div id="div1">
+
+            <lable>ID:</lable> <input type="number" id="num" required /> <br /><br />
+
+            <lable>Email:</lable> <input type="email" id="email" required /> <br />
+            <br />
+
+            <lable>Age:</lable> <input type="number" max="35" min="18" id="age" required /><br />
+            <br />
+        </div>
+
+        <div id="div2">
+            <h1>Information</h1>
+            <lable>FullName:</lable> <input type="text" id="fname" required />
+            <br /><br /><br /><br /><br /><br />
+            <lable>Telephone:</lable> <input type="text" id="tel" pattern="[0-9]{3}-[0-9]{8}" required />
+        </div>
+        <div>
+            <input type="submit" id="add" value="ADD" />
+            <input type="reset" id="rest" value="Rest" />
+
+        </div>
+
+
+    </form>
+    <button id="display">Display</button>
+    <script>
+        var arr = [];
+        var o = {};
+
+        document.getElementById("add").addEventListener("click", function(e) {
+            e.preventDefault()
+            o.Id = document.getElementById("num").value;
+            o.name = document.getElementById("fname").value;
+            o.Age = document.getElementById("age").value;
+            o.email = document.getElementById("email").value;
+            o.tel = document.getElementById("tel").value;
+            var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+            if (o.name != "" && o.ag != "" && o.email != "" && o.Id != "" && o.tel != "" && o.tel.length == 12 && mailformat.test(o.email)) {
+                arr.push(o);              
+                var x = JSON.stringify(arr);
+                localStorage.setItem("myarr", x);
+                
+
+
+            }
+
+        });
+
+        var table = document.createElement('table');
+        table.style = "border:1px solid; margin:20px";
+        table.style.visibility = "none";
+        creteTh();
+
+        function creteTh() {
+            var th = document.createElement('th');
+            th.appendChild(document.createTextNode("Id"));
+            table.appendChild(th);
+             th = document.createElement('th');
+            th.appendChild(document.createTextNode("Name"));
+            table.appendChild(th);
+            th = document.createElement('th');
+            th.appendChild(document.createTextNode("Age"));
+            table.appendChild(th);
+            th = document.createElement('th');
+            th.appendChild(document.createTextNode("Email"));
+            table.appendChild(th);
+           
+            th = document.createElement('th');
+            th.appendChild(document.createTextNode("Telephone"));
+            table.appendChild(th);
+        }
+
+
+        document.getElementById("display").addEventListener("click", function() {
+            if (table.style.visibility == "visible") {
+                table.innerHTML = "";
+                creteTh();
+            }
+            table.style.visibility = "visible";
+            var user = JSON.parse(localStorage.getItem('myarr'));
+
+
+            for (var i = 0; i < user.length; i++) {
+                var tr = document.createElement('tr');
+                for (var j in user[i]) {
+                    var td1 = document.createElement('td');
+                    console.log(user[i][j])
+                    td1.appendChild(document.createTextNode(user[i][j]));
+                    tr.appendChild(td1);
+                }
+
+                table.appendChild(tr);
+            }
+
+
+
+            document.body.appendChild(table);
+        });
+
+    </script>
+
+</body>
+
+</html>
